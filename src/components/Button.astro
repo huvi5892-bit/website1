@@ -1,0 +1,111 @@
+---
+/**
+ * Pill button used across the page.
+ * - variant "light"   → cream fill, gold outline, black text (default, on light bg)
+ * - variant "outline" → transparent, peach outline + peach text (on dark/photo bg)
+ * - icon "arrow" | "heart"
+ */
+interface Props {
+  label: string;
+  href?: string;
+  variant?: "light" | "outline";
+  icon?: "arrow" | "heart";
+}
+
+const { label, href = "#", variant = "light", icon = "arrow" } = Astro.props;
+---
+
+<a class:list={["btn", `btn--${variant}`]} href={href}>
+  <span class="btn__label">{label}</span>
+  {
+    icon === "heart" ? (
+      <img class="btn__icon btn__icon--heart" src="/assets/heart.svg" alt="" />
+    ) : (
+      <img class="btn__icon btn__icon--arrow" src="/assets/btn-arrow.svg" alt="" />
+    )
+  }
+</a>
+
+<style>
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    height: 49px;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    letter-spacing: var(--letter-spacing-sm);
+    line-height: 1;
+    white-space: nowrap;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  /* Label + icon sit above the outline's ::before stroke */
+  .btn__label,
+  .btn__icon {
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(192, 139, 47, 0.28);
+  }
+
+  /* Figma: cream fill + a 1px stroke that is a linear gradient gold→cream
+     (#C08B2F → #F5EFE6), via the padding-box / border-box double background. */
+  .btn--light {
+    border: var(--border-width-thin) solid transparent;
+    background:
+      linear-gradient(var(--color-surface-cream), var(--color-surface-cream)) padding-box,
+      var(--gradient-border-brand) border-box;
+    color: var(--color-text);
+  }
+
+  .btn--light:hover {
+    background:
+      linear-gradient(#faf5ec, #faf5ec) padding-box,
+      var(--gradient-border-brand) border-box;
+  }
+
+  /* Figma: transparent fill (the gold card shows through) + a 2px stroke that
+     is a linear gradient peach→black (#FFF1E8 → #000000) — the metallic
+     "silver" sheen. Label + heart stay light (#FFF1E8), matching the stroke.
+     The stroke is drawn on ::before (not the button) so it never masks the
+     text/icon; the mask-composite trick leaves only the padding ring. */
+  .btn--outline {
+    background: transparent;
+    color: var(--color-text-on-peach);
+  }
+
+  .btn--outline::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    box-sizing: border-box;
+    border-radius: inherit;
+    padding: var(--border-width-thick);
+    background: var(--gradient-border-peach-dark) border-box;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+  }
+
+  .btn__icon--arrow {
+    width: 13px;
+    height: 14px;
+    /* arrow points toward the reading direction (leftwards in RTL) */
+    transform: rotate(90deg);
+  }
+
+  .btn__icon--heart {
+    width: 24px;
+    height: 24px;
+  }
+</style>

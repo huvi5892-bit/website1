@@ -1,0 +1,128 @@
+/* ==========================================================================
+   Design Tokens — עמותת לנצח אחים (Landing Page)
+   Extracted from Figma: gJuKLWOiTwiSvqEmCqBnTz (node 1:8)
+   Global CSS custom properties. Import once, use everywhere.
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------
+     COLORS
+     ------------------------------------------------------------------ */
+
+  /* Brand */
+  --color-brand: #c08b2f;              /* gold — headings, accents, borders */
+  --color-brand-strong: #c08b2f;       /* alias for emphasis / footer bg */
+
+  /* Surfaces / backgrounds */
+  --color-surface: #ffffff;            /* base white sections */
+  --color-surface-muted: #f8f5f1;      /* off-white section background */
+  --color-surface-cream: #f5efe6;      /* button / soft fill */
+  --color-surface-peach: #fff1e8;      /* play buttons, decorative borders */
+
+  /* Text */
+  --color-text: #000000;               /* primary body text */
+  --color-text-inverse: #ffffff;       /* text on dark / photos */
+  --color-text-brand: #c08b2f;         /* gold text (headings, numbers) */
+  --color-text-on-peach: #fff1e8;      /* light text on brand fill */
+
+  /* Borders */
+  --color-border-brand: #c08b2f;       /* gold outlines, input underlines */
+  --color-border-peach: #fff1e8;       /* soft card borders */
+  /* Pill-button stroke — a linear gradient gold→cream (Figma exports it
+     flattened as solid #C08B2F, but the real stroke is this gradient). */
+  --gradient-border-brand: linear-gradient(135deg, #c08b2f, #f5efe6);
+  /* Outline (CTA) button stroke — peach→black gradient (Figma: #FFF1E8 →
+     #000000), the metallic/"silver" sheen on the dark-background button. */
+  --gradient-border-peach-dark: linear-gradient(45deg, #fff1e8, #000000);
+
+  /* Overlays / effects */
+  --overlay-photo-from: rgba(255, 241, 232, 0);  /* top of photo gradient */
+  --overlay-photo-to: rgba(0, 0, 0, 0.71);       /* bottom of photo gradient */
+  --gradient-photo: linear-gradient(
+    to bottom,
+    var(--overlay-photo-from) 1.083%,
+    var(--overlay-photo-to)
+  );
+
+  /* Opacities */
+  --opacity-placeholder: 0.3;          /* form placeholder text */
+
+  /* ------------------------------------------------------------------
+     TYPOGRAPHY
+     ------------------------------------------------------------------ */
+
+  /* Font families
+     NOTE: "Akapulco" and "FUP Begin" are not web-available; the fallbacks
+     below (loaded from Google Fonts in Layout.astro) approximate them.
+     Swap in the real font files when available. */
+  --font-display: "Akapulco", "Frank Ruhl Libre", serif;   /* gold headings & big numbers */
+  --font-body: "Noto Sans Hebrew New", "Noto Sans Hebrew", sans-serif;  /* Hebrew body copy */
+  --font-form: "FUP Begin", "Noto Sans Hebrew", sans-serif;  /* form fields */
+  --font-footer: "Heebo", sans-serif;                /* footer line */
+
+  /* Font weights (Noto Sans Hebrew New) */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-black: 900;
+
+  /* Font sizes */
+  --font-size-sm: 18px;                /* footer */
+  --font-size-base: 20px;              /* body, buttons */
+  --font-size-md: 25px;                /* card titles, lead paragraph */
+  --font-size-lg: 40px;               /* section headings */
+  --font-size-xl: 60px;                /* hero statements */
+  --font-size-2xl: 70px;               /* stat numbers */
+
+  /* Line heights */
+  --line-height-tight: 20px;
+  --line-height-snug: 24px;
+  --line-height-body: 29px;
+  --line-height-paragraph: 31px;
+  --line-height-heading: 34px;
+  --line-height-hero: 67px;
+  --line-height-display: 70px;
+  --line-height-button: 126px;         /* as specified in design */
+  --line-height-input: 139px;
+
+  /* Letter spacing */
+  --letter-spacing-sm: -0.2px;
+  --letter-spacing-md: -0.25px;
+  --letter-spacing-lg: -0.4px;
+  --letter-spacing-xl: -0.6px;
+  --letter-spacing-2xl: -0.7px;
+
+  /* ------------------------------------------------------------------
+     SPACING (4px scale + layout paddings)
+     ------------------------------------------------------------------ */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 24px;
+  --space-5: 36px;
+  --space-6: 40px;
+  --space-7: 64px;
+  --space-8: 120px;
+
+  /* Layout */
+  --layout-gutter: 180px;              /* horizontal section padding */
+  --section-padding-y: 120px;          /* vertical section padding */
+
+  /* ------------------------------------------------------------------
+     RADII
+     ------------------------------------------------------------------ */
+  --radius-card: 36px;                 /* photo cards */
+  --radius-play: 44px;                 /* play button */
+  --radius-pill: 49px;                 /* pill buttons */
+  --radius-full: 999px;                /* project columns / circles */
+
+  /* ------------------------------------------------------------------
+     BORDER WIDTHS
+     ------------------------------------------------------------------ */
+  --border-width-thin: 1px;            /* pill button outline */
+  --border-width-thick: 2px;           /* photo card outline */
+
+  /* ------------------------------------------------------------------
+     BREAKPOINT REFERENCE
+     ------------------------------------------------------------------ */
+  --content-max-width: 1440px;         /* design canvas width */
+}

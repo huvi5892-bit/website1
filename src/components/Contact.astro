@@ -1,0 +1,121 @@
+---
+import Button from "./Button.astro";
+import SectionHeading from "./SectionHeading.astro";
+---
+
+<section class="contact" id="contact">
+  <div class="contact__inner">
+    <form class="contact__form">
+      <SectionHeading title="דברו אתנו" />
+
+      <div class="contact__fields">
+        <div class="field">
+          <input type="text" name="name" placeholder="שם:" aria-label="שם" />
+        </div>
+        <div class="field">
+          <input type="tel" name="phone" placeholder="טלפון:" aria-label="טלפון" />
+        </div>
+      </div>
+
+      <Button label="בואו להיות חלק" icon="arrow" href="#join" />
+    </form>
+
+    <div class="contact__media">
+      <img src="/assets/logo.png" alt="עמותת לנצח אחים" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    width: 100%;
+    background: var(--color-surface-muted);
+    padding-block-end: var(--space-8);
+    padding-inline: var(--layout-gutter);
+  }
+
+  .contact__inner {
+    max-width: var(--content-max-width);
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+  }
+
+  .contact__media {
+    flex: 0 0 389px;
+  }
+
+  .contact__media img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .contact__form {
+    flex: 0 0 624px;
+    display: flex;
+    flex-direction: column;
+    /* flex-start = right edge under RTL */
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .contact__fields {
+    display: flex;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .field {
+    width: 230px;
+    border-bottom: 1px solid var(--color-border-brand);
+  }
+
+  .field input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 10px 0;
+    font-family: var(--font-form);
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    text-align: right;
+  }
+
+  .field input::placeholder {
+    color: var(--color-text);
+    opacity: var(--opacity-placeholder);
+  }
+
+  .field input:focus {
+    outline: none;
+  }
+
+  @media (max-width: 900px) {
+    .contact__inner {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-6);
+    }
+
+    .contact__form,
+    .contact__media {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+
+    .contact__media {
+      max-width: 320px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .contact {
+      padding-block-end: 64px;
+      padding-inline: 24px;
+    }
+  }
+</style>

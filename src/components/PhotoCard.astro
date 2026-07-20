@@ -1,0 +1,123 @@
+---
+/**
+ * Photo card with a dark gradient overlay and bottom-right caption.
+ * Used in the "הפעילות שלנו" bento grid.
+ */
+interface Props {
+  image: string;
+  title: string;
+  description: string;
+  class?: string;
+}
+
+const { image, title, description, class: className } = Astro.props;
+---
+
+<article class:list={["photo-card", className]}>
+  <div class="photo-card__bg" style={`background-image:url(${image})`}></div>
+  <div class="photo-card__body">
+    <h3 class="photo-card__title">{title}</h3>
+    <p class="photo-card__desc">{description}</p>
+  </div>
+</article>
+
+<style>
+  .photo-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: var(--space-1);
+    padding: var(--space-5) var(--space-4);
+    border: var(--border-width-thick) solid var(--color-border-peach);
+    border-radius: var(--radius-card);
+    overflow: clip;
+    text-align: right;
+    direction: rtl;
+    /* subtle lift so the light frame reads against the cream background */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .photo-card__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  .photo-card__bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-photo);
+  }
+
+  .photo-card__body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-1);
+  }
+
+  .photo-card__title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-black);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-snug);
+    color: var(--color-text-inverse);
+  }
+
+  .photo-card__desc {
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-snug);
+    color: var(--color-text-inverse);
+  }
+
+  /* ---- Per-card sizing (defined here so Astro's scoped styles actually
+     reach this component's root element; the Activities bento passes the
+     matching class via the `class` prop) ---- */
+  .card--food {
+    flex: 0 0 200px;
+    align-self: stretch;
+  }
+
+  .card--tefillin {
+    flex: 0 0 260px;
+    min-height: 414px;
+  }
+
+  .card--widows {
+    min-height: 270px;
+  }
+
+  .card--lonely {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 270px;
+  }
+
+  .card--support {
+    flex: 0 0 319px;
+    min-height: 270px;
+  }
+
+  @media (max-width: 1100px) {
+    .card--food {
+      flex: 1 1 100%;
+      min-height: 320px;
+    }
+
+    .card--tefillin,
+    .card--lonely,
+    .card--support {
+      flex: 1 1 260px;
+    }
+  }
+</style>

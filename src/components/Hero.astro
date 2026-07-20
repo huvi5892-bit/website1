@@ -1,0 +1,195 @@
+---
+import Button from "./Button.astro";
+---
+
+<section class="hero">
+  <div class="hero__inner">
+    <!-- Decorative cream/gold teardrop behind everything (Figma node 1:34) -->
+    <img class="hero__blob" src="/assets/hero-blob.svg" alt="" aria-hidden="true" />
+
+    <!-- Media: looping video masked to the teardrop (Figma: left 105, top -25, 595×1025) -->
+    <div class="hero__media">
+      <video
+        class="hero__video"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="metadata"
+        poster="/assets/hero-video.png"
+        aria-label="עשייה למען חיילים ומשפחות"
+      >
+        <source src="/assets/hero-video.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <!-- Content column (Figma: left 774 / top 63 / width 509) -->
+    <div class="hero__content">
+      <img class="hero__logo" src="/assets/logo.png" alt="עמותת לנצח אחים" />
+
+      <div class="hero__headingwrap">
+        <h1 class="hero__title">
+          <img
+            class="hero__title-img"
+            src="/assets/hero-heading.svg"
+            alt="הופכים כאב לשליחות"
+            width="509"
+            height="296"
+          />
+        </h1>
+        <div class="hero__cta">
+          <Button label="בואו להיות חלק" icon="arrow" href="#join" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    width: 100%;
+    background: var(--color-surface-muted);
+    overflow: clip;
+  }
+
+  /* Entire hero content locked to the 1440 design canvas, centered.
+     On wider screens this adds cream side-margins while keeping the
+     teardrop / blob / heading in their exact Figma relationship. */
+  .hero__inner {
+    position: relative;
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    height: 664px;
+  }
+
+  /* Decorative background teardrop (Figma node 1:34: left 423, top -354) */
+  .hero__blob {
+    position: absolute;
+    left: 423px;
+    top: -354px;
+    width: 594px;
+    height: 1057px;
+    transform: rotate(180deg);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Media — teardrop box (Figma: 595×1025 at left 105 / top -25) */
+  .hero__media {
+    position: absolute;
+    left: 105px;
+    top: -25px;
+    width: 595px;
+    height: 1025px;
+  }
+
+  /* The video is clipped to the exact teardrop silhouette by using the
+     alpha channel of the original teardrop PNG as a mask. */
+  .hero__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-mask-image: url("/assets/hero-video.png");
+    mask-image: url("/assets/hero-video.png");
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+
+  /* Content column */
+  .hero__content {
+    position: absolute;
+    top: 63px;
+    right: 157px;
+    width: 509px;
+    display: flex;
+    flex-direction: column;
+    /* flex-start = right edge under RTL */
+    align-items: flex-start;
+    gap: var(--space-4);
+    text-align: right;
+  }
+
+  .hero__logo {
+    width: 228px;
+    height: auto;
+  }
+
+  .hero__headingwrap {
+    position: relative;
+    width: 100%;
+  }
+
+  /* Exact wordmark exported from Figma as a vector SVG — pixel-perfect and
+     razor-sharp at every screen size (viewBox 509×296) */
+  .hero__title {
+    margin: 0;
+    width: 100%;
+    line-height: 0;
+  }
+
+  .hero__title-img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Button overlaps the wordmark on the right (Figma: within the frame,
+     top 35.8%, flush right) — % keeps it aligned as the SVG scales */
+  .hero__cta {
+    position: absolute;
+    top: 35.8%;
+    right: 0;
+  }
+
+  /* ---- Responsive: stack into normal flow ---- */
+  @media (max-width: 900px) {
+    .hero__inner {
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      padding: 40px 24px 0;
+    }
+
+    .hero__media {
+      position: static;
+      order: 2;
+      width: 100%;
+      max-width: 420px;
+      /* keep the teardrop proportion as it scales */
+      height: auto;
+      aspect-ratio: 595 / 1025;
+    }
+
+    .hero__content {
+      position: static;
+      order: 1;
+      width: 100%;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero__headingwrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero__title {
+      max-width: 340px;
+    }
+
+    .hero__cta {
+      position: static;
+      margin-top: 16px;
+      display: flex;
+      justify-content: center;
+    }
+  }
+</style>

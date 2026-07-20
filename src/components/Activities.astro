@@ -1,0 +1,176 @@
+---
+import PhotoCard from "./PhotoCard.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const stats = [
+  { number: "1500", label: "חיילים נהנים מימי כיף וגיבוש" },
+  { number: "5", label: "חיילים בודדים מקבלים בית חם" },
+  { number: "200", label: "יתומים נהנו ממתנות" },
+];
+---
+
+<section class="activities" id="activities">
+  <div class="activities__inner">
+    <SectionHeading title="הפעילות שלנו" />
+
+    <div class="activities__grid">
+      <PhotoCard
+        class="card--food"
+        image="/assets/photo-2.png"
+        title="חלוקת אוכל"
+        description="חלוקת ארוחות שבועיות לחיילים בצמתים."
+      />
+
+      <div class="activities__col">
+        <div class="activities__row activities__row--top">
+          <PhotoCard
+            class="card--tefillin"
+            image="/assets/photo-3.png"
+            title="תפילין"
+            description="חלוקת תפילין מהודרות לחיילים."
+          />
+
+          <div class="activities__item">
+            <PhotoCard
+              class="card--widows"
+              image="/assets/photo-1.png"
+              title="אלמנות ויתומים"
+              description="ימי כיף לווי כספי מקיף, מתנות ופינוקים לילדים."
+            />
+
+            <div class="stats">
+              {
+                stats.map((stat, i) => (
+                  <>
+                    {i > 0 && <img class="stats__dot" src="/assets/dot.svg" alt="" />}
+                    <div class="stat">
+                      <span class="stat__number">{stat.number}</span>
+                      <span class="stat__label">{stat.label}</span>
+                    </div>
+                  </>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="activities__row activities__row--bottom">
+          <PhotoCard
+            class="card--lonely"
+            image="/assets/photo-4.png"
+            title="חיילים בודדים"
+            description="בית חם ומפנק לחיילים בודדים הכולל את כל צרכיהם ומעבר לכך."
+          />
+          <PhotoCard
+            class="card--support"
+            image="/assets/photo-5.png"
+            title="תמיכה בחיילי צה״ל"
+            description="ימי גיבוש וערבי כיף ליחידות בצבא."
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .activities {
+    width: 100%;
+    background: var(--color-surface-muted);
+    padding-block: var(--space-8);
+    padding-inline: var(--layout-gutter);
+  }
+
+  .activities__inner {
+    max-width: var(--content-max-width);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  /* Bento grid — forced LTR so the composition matches Figma
+     (food card on the left, flowing left→right). Card text stays RTL. */
+  .activities__grid {
+    display: flex;
+    gap: var(--space-5);
+    align-items: stretch;
+    direction: ltr;
+  }
+
+  .activities__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .activities__row {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .activities__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* Card sizing lives in PhotoCard.astro (scoped-style reasons) */
+
+  /* Stats row */
+  .stats {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: nowrap;
+  }
+
+  .stats__dot {
+    width: 16.5px;
+    height: 16.5px;
+    flex-shrink: 0;
+    margin-top: 24px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 165px;
+    direction: rtl;
+  }
+
+  .stat__number {
+    font-family: var(--font-display);
+    font-size: var(--font-size-2xl);
+    line-height: 1;
+    color: var(--color-text-brand);
+    letter-spacing: var(--letter-spacing-2xl);
+  }
+
+  .stat__label {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-snug);
+    color: var(--color-text);
+  }
+
+  @media (max-width: 1100px) {
+    .activities__grid,
+    .activities__row {
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .activities {
+      padding-block: 64px;
+      padding-inline: 24px;
+    }
+  }
+</style>

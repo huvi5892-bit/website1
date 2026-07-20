@@ -1,0 +1,74 @@
+---
+/**
+ * Gold section heading + decorative rule (thin line with a dot at its end).
+ * align: "right" (default) for RTL sections, "center" for centered sections.
+ */
+interface Props {
+  title: string;
+  align?: "right" | "center";
+}
+
+const { title, align = "right" } = Astro.props;
+---
+
+<div class:list={["section-heading", `section-heading--${align}`]}>
+  <h2 class="section-heading__title">{title}</h2>
+  <div class="section-heading__rule">
+    <span class="section-heading__dot"></span>
+  </div>
+</div>
+
+<style>
+  .section-heading {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-block: 13px;
+  }
+
+  /* flex-start = right edge under RTL */
+  .section-heading--right {
+    align-items: flex-start;
+  }
+
+  .section-heading--center {
+    align-items: center;
+  }
+
+  .section-heading__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--font-size-lg);
+    color: var(--color-text-brand);
+    letter-spacing: var(--letter-spacing-lg);
+    line-height: var(--line-height-heading);
+  }
+
+  .section-heading__rule {
+    width: 156px;
+    height: 8px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    /* dot on the LEFT end of the line, as in Figma */
+    direction: ltr;
+  }
+
+  /* diamond (rotated square) end-cap — matches the diamond on the other
+     Figma rules, not a round dot */
+  .section-heading__dot {
+    width: 7px;
+    height: 7px;
+    background: var(--color-brand);
+    flex-shrink: 0;
+    transform: rotate(45deg);
+  }
+
+  .section-heading__rule::after {
+    content: "";
+    flex: 1;
+    height: 1.5px;
+    background: var(--color-brand);
+  }
+</style>

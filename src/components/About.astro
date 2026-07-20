@@ -1,0 +1,59 @@
+---
+import Button from "./Button.astro";
+import SectionHeading from "./SectionHeading.astro";
+---
+
+<section class="about" id="about">
+  <div class="about__inner">
+    <SectionHeading title="עמותת לנצח אחים" align="center" />
+
+    <p class="about__text">
+      נולדה מתוך כאב עמוק, במטרה להצמיח תקווה וחיים. העמותה, המלווה באהבה ובמסירות
+      אלמנות, יתומי צה"ל ולוחמים, הוקמה על ידי יוסי ריבלין. לאחר שאיבד את שני אחיו
+      שנרצחו בטבח בנובה, בחר יוסי להפוך את השכול האישי והאובדן הבלתי נתפס למסע
+      אינסופי של חסד, נתינה ועשייה למען האחר.
+    </p>
+
+    <Button label="הצטרפו אלינו" icon="arrow" href="#join" />
+  </div>
+</section>
+
+<style>
+  .about {
+    position: relative;
+    width: 100%;
+    min-height: 664px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface-muted) url("/assets/about-bg.png") center /
+      cover no-repeat;
+    padding-block: var(--space-1);
+    padding-inline: var(--layout-gutter);
+  }
+
+  .about__inner {
+    max-width: var(--content-max-width);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-5);
+  }
+
+  .about__text {
+    max-width: 624px;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-paragraph);
+    letter-spacing: var(--letter-spacing-lg);
+    color: var(--color-text);
+  }
+
+  @media (max-width: 768px) {
+    .about {
+      padding-block: 64px;
+      padding-inline: 24px;
+    }
+  }
+</style>

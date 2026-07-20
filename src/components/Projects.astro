@@ -1,0 +1,133 @@
+---
+import Button from "./Button.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+// Vertical video columns — order mirrors the Figma composition (photo 1 repeats).
+const columns = [
+  "/assets/project-1.jpg",
+  "/assets/project-2.jpg",
+  "/assets/project-3.jpg",
+  "/assets/project-4.jpg",
+  "/assets/project-5.jpg",
+  "/assets/project-1.jpg",
+  "/assets/project-6.jpg",
+];
+---
+
+<section class="projects" id="projects">
+  <div class="projects__inner">
+    <SectionHeading title="המיזמים שלנו" />
+
+    <div class="projects__row">
+      {
+        columns.map((src, i) => (
+          <div class="project" style={`background-image:url(${src})`}>
+            <button class="play" type="button" aria-label={`נגן סרטון ${i + 1}`}>
+              <img src="/assets/play-icon.svg" alt="" />
+            </button>
+          </div>
+        ))
+      }
+    </div>
+
+    <Button label="הצטרפו אלינו" icon="arrow" href="#join" />
+  </div>
+</section>
+
+<style>
+  .projects {
+    width: 100%;
+    background: var(--color-surface);
+    padding-block: var(--space-8);
+    padding-inline: var(--layout-gutter);
+  }
+
+  .projects__inner {
+    max-width: var(--content-max-width);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-7);
+  }
+
+  .projects__row {
+    width: 100%;
+    display: flex;
+    gap: 0;
+    justify-content: space-between;
+  }
+
+  .project {
+    /* fixed 148px columns as in Figma; space-between distributes the gaps */
+    flex: 0 0 148px;
+    min-width: 0;
+    height: 526px;
+    border-radius: var(--radius-full);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-block-end: var(--space-5);
+    overflow: clip;
+  }
+
+  .play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+    padding: 13px;
+    border: none;
+    border-radius: var(--radius-play);
+    background: var(--color-surface-peach);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .play:hover {
+    transform: scale(1.06);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .play img {
+    width: 62px;
+    height: 62px;
+  }
+
+  @media (max-width: 1000px) {
+    .projects__row {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .project {
+      flex: 0 0 130px;
+      height: 420px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .projects {
+      padding-block: 64px;
+      padding-inline: 24px;
+    }
+
+    .project {
+      flex: 0 0 110px;
+      height: 340px;
+    }
+
+    .play {
+      width: 64px;
+      height: 64px;
+      padding: 10px;
+    }
+
+    .play img {
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>

@@ -1,0 +1,119 @@
+---
+---
+
+<section class="quote">
+  <div class="quote__inner">
+    <p class="quote__text">
+      <span>מתוך הכאב בחרנו</span>
+      <span>ליצור חיבור, תקווה</span>
+      <span>ועשיה<span class="quote__text--dark"> למען אחרים</span></span>
+    </p>
+    <img class="quote__signature" src="/assets/signature.png" alt="חתימה" />
+  </div>
+
+  <!-- gold divider with a diamond at its left end, sitting at the bottom -->
+  <div class="quote__divider" aria-hidden="true"></div>
+</section>
+
+<style>
+  .quote {
+    position: relative;
+    width: 100%;
+    /* lock to the background image's aspect (1440×459) so the teardrop photos
+       are always shown in full and END exactly at the section's bottom edge,
+       at every screen width — the divider then lands right at the photo tips */
+    aspect-ratio: 1440 / 459;
+    min-height: 459px;
+    display: flex;
+    align-items: center;
+    background: var(--color-surface-muted) url("/assets/quote-bg.png") center /
+      cover no-repeat;
+    padding-inline: var(--layout-gutter);
+    overflow: clip;
+  }
+
+  .quote__inner {
+    position: relative;
+    z-index: 1;
+    max-width: var(--content-max-width);
+    margin-inline: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* flex-end = LEFT under RTL — text block sits on the left,
+       clear of the teardrop photos baked into quote-bg (right side) */
+    align-items: flex-end;
+  }
+
+  .quote__text {
+    display: block;
+    max-width: 620px;
+    text-align: right;
+    font-family: var(--font-display);
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-hero);
+    letter-spacing: var(--letter-spacing-xl);
+    color: var(--color-text-brand);
+  }
+
+  .quote__text span {
+    display: block;
+  }
+
+  .quote__text .quote__text--dark {
+    display: inline;
+  }
+
+  .quote__text--dark {
+    color: var(--color-text);
+  }
+
+  .quote__signature {
+    width: 134px;
+    height: auto;
+    margin-top: var(--space-3);
+  }
+
+  /* Divider line below the teardrop (bleeds to the right edge) with a
+     rotated-square diamond at its left end */
+  /* diamond sits 181px left of centre (matches Figma's x539 on the 1440
+     canvas) and holds that relationship at any width; line bleeds right */
+  .quote__divider {
+    position: absolute;
+    /* lifted off the bottom edge so the centred diamond isn't sliced in half
+       by the section's overflow:clip (it was rendering as a triangle) */
+    bottom: 5px;
+    left: calc(50% - 181px);
+    right: 0;
+    /* above the background photos so the line is visible */
+    z-index: 2;
+    /* Figma: stroke-width 2px, solid gold #C08B2F (no gradient) */
+    height: 2px;
+    background: var(--color-brand);
+  }
+
+  .quote__divider::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    /* 7px diamond, same size as the section-heading end-caps */
+    width: 7px;
+    height: 7px;
+    background: var(--color-brand);
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  @media (max-width: 768px) {
+    .quote {
+      padding-inline: 24px;
+      aspect-ratio: auto;
+      min-height: 360px;
+    }
+
+    .quote__text {
+      font-size: 40px;
+      line-height: 1.15;
+    }
+  }
+</style>
