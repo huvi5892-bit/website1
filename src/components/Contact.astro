@@ -47,6 +47,14 @@ const messages = {
         </div>
       </div>
 
+      <div class="field field--message">
+        <textarea
+          name="message"
+          rows="3"
+          placeholder={t("contact.message")}
+          aria-label={t("contact.message")}></textarea>
+      </div>
+
       <Button label={t("contact.button")} icon="arrow" type="submit" />
 
       <p class="contact__status" id="contact-status" role="status" aria-live="polite" hidden></p>
@@ -141,7 +149,13 @@ const messages = {
     border-bottom: 1px solid var(--color-border-brand);
   }
 
-  .field input {
+  /* message box spans the full form width */
+  .field--message {
+    width: 100%;
+  }
+
+  .field input,
+  .field textarea {
     width: 100%;
     border: none;
     background: transparent;
@@ -149,15 +163,31 @@ const messages = {
     font-family: var(--font-form);
     font-size: var(--font-size-base);
     color: var(--color-text);
-    text-align: start;
+    /* explicit (not `start`) because tel/email inputs default to LTR and would
+       otherwise left-align their Hebrew placeholder */
+    text-align: right;
   }
 
-  .field input::placeholder {
+  :global(html[lang="en"]) .field input,
+  :global(html[lang="en"]) .field textarea {
+    text-align: left;
+  }
+
+  .field textarea {
+    display: block;
+    resize: vertical;
+    min-height: 46px;
+    line-height: var(--line-height-snug);
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
     color: var(--color-text);
     opacity: var(--opacity-placeholder);
   }
 
-  .field input:focus {
+  .field input:focus,
+  .field textarea:focus {
     outline: none;
   }
 
