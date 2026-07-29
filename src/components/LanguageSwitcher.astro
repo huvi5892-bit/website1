@@ -23,7 +23,8 @@ const lang = getLang(Astro.currentLocale);
   .langswitch {
     position: fixed;
     top: 18px;
-    inset-inline-start: 18px;
+    /* always top-right, in both languages (does not flip with direction) */
+    right: 18px;
     z-index: 900;
     display: inline-flex;
     align-items: center;
@@ -72,7 +73,7 @@ const lang = getLang(Astro.currentLocale);
   @media (max-width: 768px) {
     .langswitch {
       top: 12px;
-      inset-inline-start: 12px;
+      right: 12px;
     }
   }
 </style>
