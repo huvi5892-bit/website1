@@ -49,8 +49,7 @@ const t = useTranslations(Astro.currentLocale);
     position: relative;
     min-height: 335px;
     border-radius: var(--radius-card);
-    background: var(--color-brand) url("/assets/cta-bg.png") center / cover
-      no-repeat;
+    background: var(--color-brand);
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -58,15 +57,30 @@ const t = useTranslations(Astro.currentLocale);
     overflow: clip;
   }
 
+  /* decorative swirl art as its own layer so it can mirror for English */
+  .cta__card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: url("/assets/cta-bg.png") center / cover no-repeat;
+  }
+
+  :global(html[lang="en"]) .cta__card::before {
+    transform: scaleX(-1);
+  }
+
   /* flex-start = RIGHT edge under RTL — title, subtitle & button all
      hug the right edge (button was drifting left before) */
   .cta__content {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-5);
     max-width: 670px;
-    text-align: right;
+    text-align: start;
   }
 
   .cta__text {

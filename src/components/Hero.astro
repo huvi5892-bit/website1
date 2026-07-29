@@ -166,6 +166,29 @@ const t = useTranslations(lang);
     margin-top: 24px;
   }
 
+  /* ---- English (LTR): mirror the whole hero composition ----
+     video moves to the right, content column to the left */
+  :global(html[lang="en"]) .hero__blob {
+    left: auto;
+    right: 423px;
+    transform: rotate(180deg) scaleX(-1);
+  }
+
+  :global(html[lang="en"]) .hero__media {
+    left: auto;
+    right: 105px;
+  }
+
+  :global(html[lang="en"]) .hero__video {
+    transform: scaleX(-1);
+  }
+
+  :global(html[lang="en"]) .hero__content {
+    right: auto;
+    left: 157px;
+    text-align: left;
+  }
+
   /* Button overlaps the wordmark on the right (Figma: within the frame,
      top 35.8%, flush right) — % keeps it aligned as the SVG scales */
   .hero__cta {

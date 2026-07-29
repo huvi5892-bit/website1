@@ -103,8 +103,13 @@ const rel = target === "_blank" ? "noopener noreferrer" : undefined;
   .btn__icon--arrow {
     width: 13px;
     height: 14px;
-    /* arrow points toward the reading direction (leftwards in RTL) */
+    /* arrow points toward the reading direction — leftwards in RTL (Hebrew) */
     transform: rotate(90deg);
+  }
+
+  /* ...and rightwards in LTR (English) */
+  :global(html[lang="en"]) .btn__icon--arrow {
+    transform: rotate(-90deg);
   }
 
   .btn__icon--heart {
