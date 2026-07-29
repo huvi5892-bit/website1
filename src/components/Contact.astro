@@ -163,13 +163,15 @@ const messages = {
     font-family: var(--font-form);
     font-size: var(--font-size-base);
     color: var(--color-text);
-    /* explicit (not `start`) because tel/email inputs default to LTR and would
-       otherwise left-align their Hebrew placeholder */
+    /* force RTL so the tel/email placeholder (and its colon) render on the
+       right — these input types otherwise default to LTR */
+    direction: rtl;
     text-align: right;
   }
 
   :global(html[lang="en"]) .field input,
   :global(html[lang="en"]) .field textarea {
+    direction: ltr;
     text-align: left;
   }
 
