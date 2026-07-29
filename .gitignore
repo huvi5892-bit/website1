@@ -22,3 +22,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# reference explainer video + raw source clips (not used by the built site —
+# the site serves the copies in public/assets/)
+WhatsApp Video*.mp4
+/videos/

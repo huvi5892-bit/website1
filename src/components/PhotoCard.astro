@@ -27,7 +27,8 @@ const { image, title, description, class: className } = Astro.props;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: flex-end;
+    /* flex-start = RIGHT edge under RTL — caption hugs the right, as in Figma */
+    align-items: flex-start;
     gap: var(--space-1);
     padding: var(--space-5) var(--space-4);
     border: var(--border-width-thick) solid var(--color-border-peach);
@@ -45,6 +46,36 @@ const { image, title, description, class: className } = Astro.props;
     background-size: cover;
     background-position: center;
     z-index: 0;
+    /* smooth zoom on hover */
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  /* image zooms in gently when the card is hovered */
+  .photo-card:hover .photo-card__bg {
+    transform: scale(1.07);
+  }
+
+  .photo-card {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .photo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .photo-card__bg,
+    .photo-card {
+      transition: none;
+    }
+    .photo-card:hover .photo-card__bg {
+      transform: none;
+    }
+    .photo-card:hover {
+      transform: none;
+    }
   }
 
   .photo-card__bg::after {
@@ -59,7 +90,8 @@ const { image, title, description, class: className } = Astro.props;
     z-index: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    /* flex-start = RIGHT under RTL */
+    align-items: flex-start;
     gap: var(--space-1);
   }
 

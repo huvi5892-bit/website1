@@ -14,9 +14,34 @@ import SectionHeading from "./SectionHeading.astro";
       אינסופי של חסד, נתינה ועשייה למען האחר.
     </p>
 
-    <Button label="הצטרפו אלינו" icon="arrow" href="#join" />
+    <Button label="לסיפור המלא" icon="arrow" href="#story" id="story-trigger" />
   </div>
 </section>
+
+<!-- Full-story video popup -->
+<div class="story-modal" id="story-modal" hidden>
+  <div class="story-modal__backdrop" data-story-close></div>
+  <div
+    class="story-modal__dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-label="הסיפור המלא"
+  >
+    <button class="story-modal__close" type="button" data-story-close aria-label="סגירה">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </button>
+    <video
+      class="story-modal__video"
+      src="/assets/story.mp4"
+      poster="/assets/story-poster.jpg"
+      controls
+      playsinline
+      preload="metadata"
+    ></video>
+  </div>
+</div>
 
 <style>
   .about {
@@ -56,4 +81,121 @@ import SectionHeading from "./SectionHeading.astro";
       padding-inline: 24px;
     }
   }
+
+  /* ---- Full-story video popup ---- */
+  .story-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .story-modal[hidden] {
+    display: none;
+  }
+
+  .story-modal.is-open {
+    opacity: 1;
+  }
+
+  .story-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(20, 15, 8, 0.74);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .story-modal__dialog {
+    position: relative;
+    transform: scale(0.94);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .story-modal.is-open .story-modal__dialog {
+    transform: scale(1);
+  }
+
+  .story-modal__video {
+    display: block;
+    height: min(86vh, 900px);
+    max-width: 92vw;
+    width: auto;
+    border-radius: 20px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    background: #000;
+  }
+
+  .story-modal__close {
+    position: absolute;
+    top: 10px;
+    inset-inline-end: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .story-modal__close:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.08);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .story-modal,
+    .story-modal__dialog,
+    .story-modal__close {
+      transition: none;
+    }
+  }
 </style>
+
+<script>
+  const trigger = document.getElementById("story-trigger");
+  const modal = document.getElementById("story-modal");
+  const video = modal?.querySelector<HTMLVideoElement>(".story-modal__video");
+
+  const open = (e: Event) => {
+    e.preventDefault();
+    if (!modal) return;
+    modal.hidden = false;
+    // next frame so the fade/scale transition runs
+    requestAnimationFrame(() => modal.classList.add("is-open"));
+    document.body.style.overflow = "hidden";
+    video?.play().catch(() => {});
+  };
+
+  const close = () => {
+    if (!modal) return;
+    modal.classList.remove("is-open");
+    document.body.style.overflow = "";
+    if (video) {
+      video.pause();
+      video.currentTime = 0;
+    }
+    // hide after the fade-out finishes
+    window.setTimeout(() => {
+      modal.hidden = true;
+    }, 250);
+  };
+
+  trigger?.addEventListener("click", open);
+  modal?.querySelectorAll("[data-story-close]").forEach((el) =>
+    el.addEventListener("click", close)
+  );
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && !modal.hidden) close();
+  });
+</script>

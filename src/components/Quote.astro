@@ -29,7 +29,8 @@
     background: var(--color-surface-muted) url("/assets/quote-bg.png") center /
       cover no-repeat;
     padding-inline: var(--layout-gutter);
-    overflow: clip;
+    /* visible so the centred diamond on the bottom divider isn't clipped */
+    overflow: visible;
   }
 
   .quote__inner {
@@ -80,9 +81,8 @@
      canvas) and holds that relationship at any width; line bleeds right */
   .quote__divider {
     position: absolute;
-    /* lifted off the bottom edge so the centred diamond isn't sliced in half
-       by the section's overflow:clip (it was rendering as a triangle) */
-    bottom: 5px;
+    /* sits exactly at the bottom edge of the teardrop photos */
+    bottom: 0;
     left: calc(50% - 181px);
     right: 0;
     /* above the background photos so the line is visible */
@@ -96,6 +96,8 @@
     content: "";
     position: absolute;
     left: 0;
+    /* centred on the line — line passes through its middle, like every other
+       diamond end-cap on the site */
     top: 50%;
     /* 7px diamond, same size as the section-heading end-caps */
     width: 7px;

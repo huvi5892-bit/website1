@@ -10,12 +10,15 @@ interface Props {
   href?: string;
   variant?: "light" | "outline";
   icon?: "arrow" | "heart";
+  target?: string;
+  id?: string;
 }
 
-const { label, href = "#", variant = "light", icon = "arrow" } = Astro.props;
+const { label, href = "#", variant = "light", icon = "arrow", target, id } = Astro.props;
+const rel = target === "_blank" ? "noopener noreferrer" : undefined;
 ---
 
-<a class:list={["btn", `btn--${variant}`]} href={href}>
+<a class:list={["btn", `btn--${variant}`]} href={href} target={target} rel={rel} id={id}>
   <span class="btn__label">{label}</span>
   {
     icon === "heart" ? (

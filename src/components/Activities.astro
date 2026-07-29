@@ -44,7 +44,7 @@ const stats = [
                   <>
                     {i > 0 && <img class="stats__dot" src="/assets/dot.svg" alt="" />}
                     <div class="stat">
-                      <span class="stat__number">{stat.number}</span>
+                      <span class="stat__number" data-count={stat.number}>{stat.number}</span>
                       <span class="stat__label">{stat.label}</span>
                     </div>
                   </>
@@ -144,6 +144,23 @@ const stats = [
     text-align: center;
     max-width: 165px;
     direction: rtl;
+    /* slides up + fades in when the section scrolls into view */
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .stat.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stat {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   .stat__number {
@@ -174,3 +191,46 @@ const stats = [
     }
   }
 </style>
+
+<script>
+  // Count the stat numbers up from 0 to their target, and slide the stat in,
+  // when the row first scrolls into view.
+  const stats = document.querySelectorAll<HTMLElement>(".stat");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const animateNumber = (el: HTMLElement, target: number) => {
+    const duration = 1500;
+    const start = performance.now();
+    const step = (now: number) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      el.textContent = String(Math.round(eased * target));
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = String(target);
+    };
+    requestAnimationFrame(step);
+  };
+
+  // seed the display at 0 so the count-up starts from zero
+  stats.forEach((stat) => {
+    const num = stat.querySelector<HTMLElement>(".stat__number");
+    if (num && !reduce) num.textContent = "0";
+  });
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const stat = entry.target as HTMLElement;
+        io.unobserve(stat);
+        stat.classList.add("is-visible");
+        const num = stat.querySelector<HTMLElement>(".stat__number");
+        const target = Number(num?.dataset.count ?? 0);
+        if (num && !reduce) animateNumber(num, target);
+      });
+    },
+    { threshold: 0.6 }
+  );
+
+  stats.forEach((stat) => io.observe(stat));
+</script>
