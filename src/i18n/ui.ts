@@ -62,6 +62,9 @@ export const ui = {
     "contact.name": "שם:",
     "contact.phone": "טלפון:",
     "contact.button": "בואו להיות חלק",
+    "contact.sending": "שולח...",
+    "contact.success": "תודה! פנייתכם נשלחה, ניצור קשר בהקדם. 💛",
+    "contact.error": "אופס, משהו השתבש. נסו שוב או התקשרו אלינו.",
 
     "footer.text": "© 2026 לנצח אחים | כל הזכויות שמורות.",
   },
@@ -117,6 +120,9 @@ export const ui = {
     "contact.name": "Name:",
     "contact.phone": "Phone:",
     "contact.button": "Be Part of It",
+    "contact.sending": "Sending...",
+    "contact.success": "Thank you! Your message was sent — we'll be in touch soon. 💛",
+    "contact.error": "Oops, something went wrong. Please try again or call us.",
 
     "footer.text": "© 2026 Lanetzach Achim | All rights reserved.",
   },

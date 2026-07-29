@@ -4,23 +4,52 @@ import SectionHeading from "./SectionHeading.astro";
 import { useTranslations } from "../i18n/ui";
 
 const t = useTranslations(Astro.currentLocale);
+
+// Web3Forms — public access key (safe to expose); recipient is set in the
+// Web3Forms dashboard, so it can be changed without touching the code.
+const ACCESS_KEY = "bad57d12-fd1f-4b4f-af1b-6b07672658d2";
+
+const messages = {
+  sending: t("contact.sending"),
+  success: t("contact.success"),
+  error: t("contact.error"),
+};
 ---
 
 <section class="contact" id="contact">
   <div class="contact__inner">
-    <form class="contact__form">
+    <form
+      class="contact__form"
+      id="contact-form"
+      action="https://api.web3forms.com/submit"
+      method="POST"
+    >
       <SectionHeading title={t("contact.heading")} />
+
+      <input type="hidden" name="access_key" value={ACCESS_KEY} />
+      <input type="hidden" name="subject" value="פנייה חדשה מאתר לנצח אחים" />
+      <input type="hidden" name="from_name" value="אתר לנצח אחים" />
+      {/* honeypot spam trap — real users never fill this */}
+      <input
+        type="checkbox"
+        name="botcheck"
+        class="contact__honeypot"
+        tabindex="-1"
+        autocomplete="off"
+      />
 
       <div class="contact__fields">
         <div class="field">
-          <input type="text" name="name" placeholder={t("contact.name")} aria-label={t("contact.name")} />
+          <input type="text" name="name" required placeholder={t("contact.name")} aria-label={t("contact.name")} />
         </div>
         <div class="field">
-          <input type="tel" name="phone" placeholder={t("contact.phone")} aria-label={t("contact.phone")} />
+          <input type="tel" name="phone" required placeholder={t("contact.phone")} aria-label={t("contact.phone")} />
         </div>
       </div>
 
-      <Button label={t("contact.button")} icon="arrow" href="#join" />
+      <Button label={t("contact.button")} icon="arrow" type="submit" />
+
+      <p class="contact__status" id="contact-status" role="status" aria-live="polite" hidden></p>
     </form>
 
     <div class="contact__media">
@@ -28,6 +57,41 @@ const t = useTranslations(Astro.currentLocale);
     </div>
   </div>
 </section>
+
+<script define:vars={{ messages }}>
+  const form = document.getElementById("contact-form");
+  const statusEl = document.getElementById("contact-status");
+  const label = form?.querySelector(".btn__label");
+  const original = label?.textContent;
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    statusEl.hidden = true;
+    if (label) label.textContent = messages.sending;
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: new FormData(form),
+      });
+      const data = await res.json();
+      if (data.success) {
+        statusEl.textContent = messages.success;
+        statusEl.className = "contact__status is-success";
+        form.reset();
+      } else {
+        statusEl.textContent = messages.error;
+        statusEl.className = "contact__status is-error";
+      }
+    } catch {
+      statusEl.textContent = messages.error;
+      statusEl.className = "contact__status is-error";
+    } finally {
+      statusEl.hidden = false;
+      if (label) label.textContent = original;
+    }
+  });
+</script>
 
 <style>
   .contact {
@@ -95,6 +159,31 @@ const t = useTranslations(Astro.currentLocale);
 
   .field input:focus {
     outline: none;
+  }
+
+  /* hidden spam honeypot */
+  .contact__honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    pointer-events: none;
+  }
+
+  .contact__status {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-snug);
+  }
+
+  .contact__status.is-success {
+    color: #2e7d32;
+  }
+
+  .contact__status.is-error {
+    color: #c62828;
   }
 
   @media (max-width: 900px) {

@@ -12,22 +12,36 @@ interface Props {
   icon?: "arrow" | "heart";
   target?: string;
   id?: string;
+  /** when set, renders a real <button> (e.g. "submit") instead of a link */
+  type?: "submit" | "button";
 }
 
-const { label, href = "#", variant = "light", icon = "arrow", target, id } = Astro.props;
+const { label, href = "#", variant = "light", icon = "arrow", target, id, type } =
+  Astro.props;
 const rel = target === "_blank" ? "noopener noreferrer" : undefined;
 ---
 
-<a class:list={["btn", `btn--${variant}`]} href={href} target={target} rel={rel} id={id}>
-  <span class="btn__label">{label}</span>
-  {
-    icon === "heart" ? (
-      <img class="btn__icon btn__icon--heart" src="/assets/heart.svg" alt="" />
-    ) : (
-      <img class="btn__icon btn__icon--arrow" src="/assets/btn-arrow.svg" alt="" />
-    )
-  }
-</a>
+{
+  type ? (
+    <button class:list={["btn", `btn--${variant}`]} type={type} id={id}>
+      <span class="btn__label">{label}</span>
+      {icon === "heart" ? (
+        <img class="btn__icon btn__icon--heart" src="/assets/heart.svg" alt="" />
+      ) : (
+        <img class="btn__icon btn__icon--arrow" src="/assets/btn-arrow.svg" alt="" />
+      )}
+    </button>
+  ) : (
+    <a class:list={["btn", `btn--${variant}`]} href={href} target={target} rel={rel} id={id}>
+      <span class="btn__label">{label}</span>
+      {icon === "heart" ? (
+        <img class="btn__icon btn__icon--heart" src="/assets/heart.svg" alt="" />
+      ) : (
+        <img class="btn__icon btn__icon--arrow" src="/assets/btn-arrow.svg" alt="" />
+      )}
+    </a>
+  )
+}
 
 <style>
   .btn {
