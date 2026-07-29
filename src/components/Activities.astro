@@ -1,24 +1,27 @@
 ---
 import PhotoCard from "./PhotoCard.astro";
 import SectionHeading from "./SectionHeading.astro";
+import { useTranslations } from "../i18n/ui";
+
+const t = useTranslations(Astro.currentLocale);
 
 const stats = [
-  { number: "1500", label: "חיילים נהנים מימי כיף וגיבוש" },
-  { number: "5", label: "חיילים בודדים מקבלים בית חם" },
-  { number: "200", label: "יתומים נהנו ממתנות" },
+  { number: "1500", label: t("stat.1.label") },
+  { number: "5", label: t("stat.2.label") },
+  { number: "200", label: t("stat.3.label") },
 ];
 ---
 
 <section class="activities" id="activities">
   <div class="activities__inner">
-    <SectionHeading title="הפעילות שלנו" />
+    <SectionHeading title={t("activities.heading")} />
 
     <div class="activities__grid">
       <PhotoCard
         class="card--food"
         image="/assets/photo-2.png"
-        title="חלוקת אוכל"
-        description="חלוקת ארוחות שבועיות לחיילים בצמתים."
+        title={t("card.food.title")}
+        description={t("card.food.desc")}
       />
 
       <div class="activities__col">
@@ -26,16 +29,16 @@ const stats = [
           <PhotoCard
             class="card--tefillin"
             image="/assets/photo-3.png"
-            title="תפילין"
-            description="חלוקת תפילין מהודרות לחיילים."
+            title={t("card.tefillin.title")}
+            description={t("card.tefillin.desc")}
           />
 
           <div class="activities__item">
             <PhotoCard
               class="card--widows"
               image="/assets/photo-1.png"
-              title="אלמנות ויתומים"
-              description="ימי כיף לווי כספי מקיף, מתנות ופינוקים לילדים."
+              title={t("card.widows.title")}
+              description={t("card.widows.desc")}
             />
 
             <div class="stats">
@@ -58,14 +61,14 @@ const stats = [
           <PhotoCard
             class="card--lonely"
             image="/assets/photo-4.png"
-            title="חיילים בודדים"
-            description="בית חם ומפנק לחיילים בודדים הכולל את כל צרכיהם ומעבר לכך."
+            title={t("card.lonely.title")}
+            description={t("card.lonely.desc")}
           />
           <PhotoCard
             class="card--support"
             image="/assets/photo-5.png"
-            title="תמיכה בחיילי צה״ל"
-            description="ימי גיבוש וערבי כיף ליחידות בצבא."
+            title={t("card.support.title")}
+            description={t("card.support.desc")}
           />
         </div>
       </div>

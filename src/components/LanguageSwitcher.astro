@@ -1,0 +1,78 @@
+---
+import { getLang } from "../i18n/ui";
+const lang = getLang(Astro.currentLocale);
+---
+
+<nav class="langswitch" aria-label="Language / שפה">
+  <a
+    href="/"
+    class:list={["langswitch__opt", lang === "he" && "is-active"]}
+    hreflang="he"
+    aria-current={lang === "he" ? "true" : undefined}>עב</a
+  >
+  <span class="langswitch__sep" aria-hidden="true"></span>
+  <a
+    href="/en/"
+    class:list={["langswitch__opt", lang === "en" && "is-active"]}
+    hreflang="en"
+    aria-current={lang === "en" ? "true" : undefined}>EN</a
+  >
+</nav>
+
+<style>
+  .langswitch {
+    position: fixed;
+    top: 18px;
+    inset-inline-start: 18px;
+    z-index: 900;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 8px;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--color-border-brand);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-body);
+  }
+
+  .langswitch__opt {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    padding: 3px 8px;
+    border-radius: var(--radius-pill);
+    font-size: 15px;
+    line-height: 1;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .langswitch__opt:hover {
+    background: rgba(192, 139, 47, 0.12);
+  }
+
+  .langswitch__opt.is-active {
+    background: var(--color-brand);
+    color: #fff;
+  }
+
+  .langswitch__sep {
+    width: 1px;
+    height: 16px;
+    background: var(--color-border-brand);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 768px) {
+    .langswitch {
+      top: 12px;
+      inset-inline-start: 12px;
+    }
+  }
+</style>

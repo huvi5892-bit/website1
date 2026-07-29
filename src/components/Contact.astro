@@ -1,27 +1,30 @@
 ---
 import Button from "./Button.astro";
 import SectionHeading from "./SectionHeading.astro";
+import { useTranslations } from "../i18n/ui";
+
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <section class="contact" id="contact">
   <div class="contact__inner">
     <form class="contact__form">
-      <SectionHeading title="דברו אתנו" />
+      <SectionHeading title={t("contact.heading")} />
 
       <div class="contact__fields">
         <div class="field">
-          <input type="text" name="name" placeholder="שם:" aria-label="שם" />
+          <input type="text" name="name" placeholder={t("contact.name")} aria-label={t("contact.name")} />
         </div>
         <div class="field">
-          <input type="tel" name="phone" placeholder="טלפון:" aria-label="טלפון" />
+          <input type="tel" name="phone" placeholder={t("contact.phone")} aria-label={t("contact.phone")} />
         </div>
       </div>
 
-      <Button label="בואו להיות חלק" icon="arrow" href="#join" />
+      <Button label={t("contact.button")} icon="arrow" href="#join" />
     </form>
 
     <div class="contact__media">
-      <img src="/assets/logo.png" alt="עמותת לנצח אחים" />
+      <img src="/assets/logo.png" alt={t("hero.logoAlt")} />
     </div>
   </div>
 </section>
@@ -82,7 +85,7 @@ import SectionHeading from "./SectionHeading.astro";
     font-family: var(--font-form);
     font-size: var(--font-size-base);
     color: var(--color-text);
-    text-align: right;
+    text-align: start;
   }
 
   .field input::placeholder {

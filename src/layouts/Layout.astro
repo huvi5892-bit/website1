@@ -1,19 +1,23 @@
 ---
 import "../styles/global.css";
+import LanguageSwitcher from "../components/LanguageSwitcher.astro";
+import { getLang, useTranslations } from "../i18n/ui";
+
+const lang = getLang(Astro.currentLocale);
+const dir = lang === "he" ? "rtl" : "ltr";
+const t = useTranslations(lang);
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const {
-  title = "עמותת לנצח אחים",
-  description = "עמותת לנצח אחים — נולדה מתוך כאב עמוק במטרה להצמיח תקווה וחיים, מלווה אלמנות, יתומי צה\"ל ולוחמים.",
-} = Astro.props;
+const { title = t("site.title"), description = t("site.description") } =
+  Astro.props;
 ---
 
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang={lang} dir={dir}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,13 +29,14 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@400;500&family=Noto+Sans+Hebrew:wght@400;500;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@400;500&family=Inter:wght@400;500;700&family=Noto+Sans+Hebrew:wght@400;500;700;900&family=Playfair+Display:wght@500;700;800&display=swap"
       rel="stylesheet"
     />
 
     <title>{title}</title>
   </head>
   <body>
+    <LanguageSwitcher />
     <slot />
   </body>
 </html>

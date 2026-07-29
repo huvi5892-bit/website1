@@ -1,5 +1,8 @@
 ---
 import Button from "./Button.astro";
+import { useTranslations } from "../i18n/ui";
+
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <section class="cta" id="join">
@@ -7,14 +10,14 @@ import Button from "./Button.astro";
     <div class="cta__card">
       <div class="cta__content">
         <div class="cta__text">
-          <h2 class="cta__title">בואו להיות חלק</h2>
+          <h2 class="cta__title">{t("cta.title")}</h2>
           <p class="cta__subtitle">
-            בכל תרומה שלך,<br />
-            אתה מדליק אור בלב של אחר.
+            {t("cta.subtitle1")}<br />
+            {t("cta.subtitle2")}
           </p>
         </div>
         <Button
-          label="הצטרפו אלינו"
+          label={t("cta.button")}
           variant="outline"
           icon="heart"
           href="https://pay.hyp.co.il/cgi-bin/yaadpay/yaadpay3ds.pl?Coin=1&FixTash=False&Info=%FA%F8%E5%EE%E4%20%EC%F2%EE%E5%FA%FA%20%26%2334%3B%EC%F0%F6%E7%20%E0%E7%E9%ED%26%2334%3B&Masof=4502127630&MoreData=True&PageLang=HEB&Postpone=False&ShowEngTashText=True&Tash=1&UTF8out=True&action=pay&freq=1&sendemail=True&tmp=1&signature=6ab2c90e28e782859006f72d8f11a07467e030be0b6018db4ee83fed27e543a2"

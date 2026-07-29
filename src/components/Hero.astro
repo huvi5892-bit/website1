@@ -1,5 +1,9 @@
 ---
 import Button from "./Button.astro";
+import { getLang, useTranslations } from "../i18n/ui";
+
+const lang = getLang(Astro.currentLocale);
+const t = useTranslations(lang);
 ---
 
 <section class="hero">
@@ -17,7 +21,7 @@ import Button from "./Button.astro";
         playsinline
         preload="metadata"
         poster="/assets/hero-video.png"
-        aria-label="עשייה למען חיילים ומשפחות"
+        aria-label={t("hero.videoLabel")}
       >
         <source src="/assets/hero-video.mp4" type="video/mp4" />
       </video>
@@ -25,20 +29,26 @@ import Button from "./Button.astro";
 
     <!-- Content column (Figma: left 774 / top 63 / width 509) -->
     <div class="hero__content">
-      <img class="hero__logo" src="/assets/logo.png" alt="עמותת לנצח אחים" />
+      <img class="hero__logo" src="/assets/logo.png" alt={t("hero.logoAlt")} />
 
       <div class="hero__headingwrap">
         <h1 class="hero__title">
-          <img
-            class="hero__title-img"
-            src="/assets/hero-heading.svg"
-            alt="הופכים כאב לשליחות"
-            width="509"
-            height="296"
-          />
+          {
+            lang === "he" ? (
+              <img
+                class="hero__title-img"
+                src="/assets/hero-heading.svg"
+                alt={t("hero.heading")}
+                width="509"
+                height="296"
+              />
+            ) : (
+              <span class="hero__title-text">{t("hero.heading")}</span>
+            )
+          }
         </h1>
         <div class="hero__cta">
-          <Button label="בואו להיות חלק" icon="arrow" href="#join" />
+          <Button label={t("hero.cta")} icon="arrow" href="#join" />
         </div>
       </div>
     </div>
@@ -136,6 +146,24 @@ import Button from "./Button.astro";
     display: block;
     width: 100%;
     height: auto;
+  }
+
+  /* English heading: styled text instead of the Hebrew wordmark image */
+  .hero__title-text {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 66px;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    color: var(--color-text-brand);
+  }
+
+  /* the CTA overlaps the Hebrew wordmark image, but flows below the English
+     text heading */
+  :global(html[lang="en"]) .hero__cta {
+    position: static;
+    margin-top: 24px;
   }
 
   /* Button overlaps the wordmark on the right (Figma: within the frame,

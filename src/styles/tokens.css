@@ -126,3 +126,11 @@
      ------------------------------------------------------------------ */
   --content-max-width: 1440px;         /* design canvas width */
 }
+
+/* English (LTR) uses Latin-native fonts instead of the Hebrew families */
+html[lang="en"] {
+  --font-display: "Playfair Display", "Frank Ruhl Libre", serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-form: "Inter", system-ui, sans-serif;
+  --font-footer: "Inter", system-ui, sans-serif;
+}

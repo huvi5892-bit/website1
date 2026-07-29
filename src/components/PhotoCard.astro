@@ -34,8 +34,8 @@ const { image, title, description, class: className } = Astro.props;
     border: var(--border-width-thick) solid var(--color-border-peach);
     border-radius: var(--radius-card);
     overflow: clip;
-    text-align: right;
-    direction: rtl;
+    /* logical so it flips for English (LTR) */
+    text-align: start;
     /* subtle lift so the light frame reads against the cream background */
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   }

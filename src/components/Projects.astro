@@ -1,6 +1,9 @@
 ---
 import Button from "./Button.astro";
 import SectionHeading from "./SectionHeading.astro";
+import { useTranslations } from "../i18n/ui";
+
+const t = useTranslations(Astro.currentLocale);
 
 // Vertical video columns. Each column shows a poster frame pulled from its own
 // clip; clicking play expands that column sideways and plays the video inline.
@@ -12,7 +15,7 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
 
 <section class="projects" id="projects">
   <div class="projects__inner">
-    <SectionHeading title="המיזמים שלנו" />
+    <SectionHeading title={t("projects.heading")} />
 
     <div class="projects__row" data-projects>
       {
@@ -29,11 +32,11 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
             <button
               class="project__play"
               type="button"
-              aria-label={`נגן סרטון ${i + 1}`}
+              aria-label={`${t("projects.playLabel")} ${i + 1}`}
             >
               <img src="/assets/play-icon.svg" alt="" />
             </button>
-            <button class="project__close" type="button" aria-label="סגירת הסרטון">
+            <button class="project__close" type="button" aria-label={t("projects.closeLabel")}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
               </svg>
@@ -43,7 +46,7 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
       }
     </div>
 
-    <Button label="הצטרפו אלינו" icon="arrow" href="#join" />
+    <Button label={t("projects.cta")} icon="arrow" href="#join" />
   </div>
 </section>
 

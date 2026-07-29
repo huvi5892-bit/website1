@@ -1,8 +1,11 @@
 ---
+import { useTranslations } from "../i18n/ui";
+
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <footer class="footer">
-  <p class="footer__text">© 2026 לנצח אחים | כל הזכויות שמורות.</p>
+  <p class="footer__text">{t("footer.text")}</p>
 </footer>
 
 <style>

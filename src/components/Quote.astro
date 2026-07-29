@@ -1,14 +1,17 @@
 ---
+import { useTranslations } from "../i18n/ui";
+
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <section class="quote">
   <div class="quote__inner">
     <p class="quote__text">
-      <span>מתוך הכאב בחרנו</span>
-      <span>ליצור חיבור, תקווה</span>
-      <span>ועשיה<span class="quote__text--dark"> למען אחרים</span></span>
+      <span>{t("quote.line1")}</span>
+      <span>{t("quote.line2")}</span>
+      <span>{t("quote.line3a")}<span class="quote__text--dark">{t("quote.line3b")}</span></span>
     </p>
-    <img class="quote__signature" src="/assets/signature.png" alt="חתימה" />
+    <img class="quote__signature" src="/assets/signature.png" alt={t("quote.signatureAlt")} />
   </div>
 
   <!-- gold divider with a diamond at its left end, sitting at the bottom -->
@@ -46,10 +49,16 @@
     align-items: flex-end;
   }
 
+  /* the photos are baked into the background on the right in both languages,
+     so keep the English (LTR) text block on the left too */
+  :global(html[lang="en"]) .quote__inner {
+    align-items: flex-start;
+  }
+
   .quote__text {
     display: block;
     max-width: 620px;
-    text-align: right;
+    text-align: start;
     font-family: var(--font-display);
     font-size: var(--font-size-xl);
     line-height: var(--line-height-hero);
