@@ -27,6 +27,8 @@ body {
   text-rendering: optimizeLegibility;
   /* Akapulco ships a single weight — never let the browser fake bold/italic */
   font-synthesis: none;
+  /* never allow stray horizontal scroll on mobile */
+  overflow-x: clip;
 }
 
 /* Headings default to bold; force the real (single) display weight so

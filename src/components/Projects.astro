@@ -200,19 +200,34 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
     }
   }
 
+  /* ---- Mobile / tablet: a swipeable horizontal slider ---- */
   @media (max-width: 1000px) {
     .projects__row {
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 14px;
+      padding-block-end: 10px;
+      /* let the slider bleed to the screen edges for a nicer feel */
+      scrollbar-width: none;
+    }
+
+    .projects__row::-webkit-scrollbar {
+      display: none;
     }
 
     .project {
-      flex: 0 0 130px;
-      height: 420px;
+      flex: 0 0 200px;
+      height: 440px;
+      scroll-snap-align: center;
     }
 
+    /* no sideways expand inside the slider — the clip just plays in place */
     .project.is-active {
-      flex: 0 0 300px;
+      flex: 0 0 200px;
+      border-radius: var(--radius-full);
     }
   }
 
@@ -223,23 +238,35 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
     }
 
     .project {
-      flex: 0 0 110px;
-      height: 340px;
+      flex: 0 0 168px;
+      height: 380px;
     }
 
     .project.is-active {
-      flex: 0 0 260px;
+      flex: 0 0 168px;
     }
 
     .project__play {
-      width: 64px;
-      height: 64px;
+      width: 62px;
+      height: 62px;
       padding: 10px;
     }
 
     .project__play img {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
+    }
+
+    /* keep play buttons full size in the slider (no shrink-when-active) */
+    .projects__row.has-active .project:not(.is-active) .project__play {
+      width: 62px;
+      height: 62px;
+      padding: 10px;
+    }
+
+    .projects__row.has-active .project:not(.is-active) .project__play img {
+      width: 42px;
+      height: 42px;
     }
   }
 </style>

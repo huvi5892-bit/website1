@@ -28,6 +28,9 @@ const lang = getLang(Astro.currentLocale);
     z-index: 900;
     display: inline-flex;
     align-items: center;
+    /* fixed order (עב then EN) in both languages — never reorder when the
+       page direction flips */
+    direction: ltr;
     gap: 4px;
     padding: 5px 8px;
     border-radius: var(--radius-pill);
