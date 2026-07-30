@@ -50,6 +50,19 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
   </div>
 </section>
 
+<!-- Mobile: tapping a clip opens it big in this popup -->
+<div class="pv-modal" id="pv-modal" hidden>
+  <button class="pv-modal__backdrop" type="button" data-pv-close aria-label={t("projects.closeLabel")}></button>
+  <div class="pv-modal__dialog">
+    <button class="pv-modal__close" type="button" data-pv-close aria-label={t("projects.closeLabel")}>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </button>
+    <video class="pv-modal__video" playsinline controls></video>
+  </div>
+</div>
+
 <style>
   .projects {
     width: 100%;
@@ -269,10 +282,120 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
       height: 42px;
     }
   }
+
+  /* ---- Mobile full-screen video popup ---- */
+  .pv-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .pv-modal[hidden] {
+    display: none;
+  }
+
+  .pv-modal.is-open {
+    opacity: 1;
+  }
+
+  .pv-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    border: none;
+    padding: 0;
+    background: rgba(20, 15, 8, 0.82);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .pv-modal__dialog {
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .pv-modal.is-open .pv-modal__dialog {
+    transform: scale(1);
+  }
+
+  .pv-modal__video {
+    display: block;
+    height: min(84vh, 900px);
+    max-width: 94vw;
+    width: auto;
+    border-radius: 18px;
+    background: #000;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  }
+
+  .pv-modal__close {
+    position: absolute;
+    top: 10px;
+    inset-inline-end: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    cursor: pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pv-modal,
+    .pv-modal__dialog {
+      transition: none;
+    }
+  }
 </style>
 
 <script>
   const row = document.querySelector<HTMLElement>("[data-projects]");
+
+  // ---- Mobile full-screen popup ----
+  const modal = document.getElementById("pv-modal");
+  const modalVideo = modal?.querySelector<HTMLVideoElement>(".pv-modal__video");
+  const isMobile = () => window.matchMedia("(max-width: 1000px)").matches;
+
+  const openModal = (src: string, poster: string | null) => {
+    if (!modal || !modalVideo) return;
+    modalVideo.src = src;
+    if (poster) modalVideo.poster = poster;
+    modal.hidden = false;
+    requestAnimationFrame(() => modal.classList.add("is-open"));
+    document.body.style.overflow = "hidden";
+    modalVideo.play().catch(() => {});
+  };
+
+  const closeModal = () => {
+    if (!modal || !modalVideo) return;
+    modal.classList.remove("is-open");
+    modalVideo.pause();
+    document.body.style.overflow = "";
+    window.setTimeout(() => {
+      modal.hidden = true;
+      modalVideo.removeAttribute("src");
+      modalVideo.load();
+    }, 250);
+  };
+
+  modal
+    ?.querySelectorAll("[data-pv-close]")
+    .forEach((el) => el.addEventListener("click", closeModal));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && !modal.hidden) closeModal();
+  });
+
   if (row) {
     const projects = Array.from(
       row.querySelectorAll<HTMLElement>("[data-project]")
@@ -306,18 +429,27 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
       }
     };
 
+    // desktop: expand inline (accordion). mobile: open the big popup.
+    const open = (p: HTMLElement) => {
+      if (isMobile()) {
+        const v = videoOf(p);
+        openModal(v?.getAttribute("src") ?? "", v?.getAttribute("poster") ?? null);
+      } else {
+        activate(p);
+      }
+    };
+
     projects.forEach((p) => {
       p.querySelector(".project__play")?.addEventListener("click", (e) => {
         e.stopPropagation();
-        activate(p);
+        open(p);
       });
       p.querySelector(".project__close")?.addEventListener("click", (e) => {
         e.stopPropagation();
         deactivate(p);
       });
-      // clicking anywhere on a collapsed column also opens it
       p.addEventListener("click", () => {
-        if (!p.classList.contains("is-active")) activate(p);
+        if (!p.classList.contains("is-active")) open(p);
       });
     });
   }
