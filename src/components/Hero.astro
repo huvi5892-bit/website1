@@ -213,7 +213,13 @@ const t = useTranslations(lang);
       order: 2;
       width: 100%;
       max-width: 420px;
-      /* keep the teardrop proportion as it scales */
+      /* shorter box clips the pointed teardrop tip at the bottom */
+      aspect-ratio: 595 / 760;
+      overflow: clip;
+    }
+
+    /* video keeps the teardrop's real proportion; the box crops its bottom */
+    .hero__video {
       height: auto;
       aspect-ratio: 595 / 1025;
     }

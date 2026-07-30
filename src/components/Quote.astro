@@ -152,26 +152,16 @@ const t = useTranslations(Astro.currentLocale);
       margin-inline: auto;
     }
 
+    /* full teardrops, large enough that the faces are never cut */
     .quote__photos {
       display: block;
       width: 100%;
-      max-width: 340px;
+      max-width: 420px;
       height: auto;
     }
 
-    /* full teardrops finished by the gold line at their tips — like desktop */
     .quote__divider {
-      position: static;
-      left: auto;
-      right: auto;
-      bottom: auto;
-      width: 100%;
-      height: 2px;
-      margin-top: -22px;
-    }
-
-    .quote__divider::before {
-      left: 0;
+      display: none;
     }
   }
 </style>
