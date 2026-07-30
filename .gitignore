@@ -27,3 +27,5 @@ pnpm-debug.log*
 # the site serves the copies in public/assets/)
 WhatsApp Video*.mp4
 /videos/
+
+/8.mp4
