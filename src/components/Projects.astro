@@ -219,7 +219,6 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
       flex-wrap: nowrap;
       justify-content: flex-start;
       overflow-x: auto;
-      scroll-snap-type: x proximity;
       -webkit-overflow-scrolling: touch;
       gap: 12px;
       padding-block-end: 10px;
@@ -233,7 +232,6 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
     .project {
       flex: 0 0 200px;
       height: 440px;
-      scroll-snap-align: start;
     }
 
     /* opened clip expands to a wide rectangle (same height), like desktop */
