@@ -219,11 +219,10 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
       flex-wrap: nowrap;
       justify-content: flex-start;
       overflow-x: auto;
-      scroll-snap-type: x mandatory;
+      scroll-snap-type: x proximity;
       -webkit-overflow-scrolling: touch;
-      gap: 14px;
+      gap: 12px;
       padding-block-end: 10px;
-      /* let the slider bleed to the screen edges for a nicer feel */
       scrollbar-width: none;
     }
 
@@ -234,13 +233,14 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
     .project {
       flex: 0 0 200px;
       height: 440px;
-      scroll-snap-align: center;
+      scroll-snap-align: start;
     }
 
-    /* no sideways expand inside the slider — the clip just plays in place */
+    /* opened clip expands to a wide rectangle (same height), like desktop */
     .project.is-active {
-      flex: 0 0 200px;
-      border-radius: var(--radius-full);
+      flex: 0 0 86vw;
+      max-width: 560px;
+      border-radius: 22px;
     }
   }
 
@@ -250,24 +250,32 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
       padding-inline: 24px;
     }
 
+    /* full-bleed: the slider runs off both screen edges (peek affordance) */
+    .projects__row {
+      margin-inline: -24px;
+      padding-inline: 24px;
+      scroll-padding-inline: 24px;
+    }
+
     .project {
-      flex: 0 0 168px;
-      height: 380px;
+      flex: 0 0 150px;
+      height: 360px;
     }
 
     .project.is-active {
-      flex: 0 0 168px;
+      flex: 0 0 84vw;
+      max-width: 400px;
     }
 
     .project__play {
-      width: 62px;
-      height: 62px;
-      padding: 10px;
+      width: 58px;
+      height: 58px;
+      padding: 9px;
     }
 
     .project__play img {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
     }
 
     /* keep play buttons full size in the slider (no shrink-when-active) */
@@ -429,13 +437,12 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
       }
     };
 
-    // desktop: expand inline (accordion). mobile: open the big popup.
+    // expand inline to a wide rectangle (same on mobile and desktop);
+    // on mobile also scroll the opened clip into view within the slider
     const open = (p: HTMLElement) => {
+      activate(p);
       if (isMobile()) {
-        const v = videoOf(p);
-        openModal(v?.getAttribute("src") ?? "", v?.getAttribute("poster") ?? null);
-      } else {
-        activate(p);
+        p.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
       }
     };
 
