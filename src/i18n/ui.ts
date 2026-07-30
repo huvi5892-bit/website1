@@ -29,7 +29,7 @@ export const ui = {
     "activities.heading": "הפעילות שלנו",
     "stat.1.label": "חיילים נהנים מימי כיף וגיבוש",
     "stat.2.label": "חיילים בודדים מקבלים בית חם",
-    "stat.3.label": "יתומים נהנו ממתנות",
+    "stat.3.label": "ליווי יום יומי",
 
     "card.food.title": "חלוקת אוכל",
     "card.food.desc": "חלוקת ארוחות שבועיות לחיילים בצמתים.",
@@ -89,7 +89,7 @@ export const ui = {
     "activities.heading": "Our Activities",
     "stat.1.label": "soldiers enjoyed fun and bonding days",
     "stat.2.label": "lone soldiers received a warm home",
-    "stat.3.label": "orphans received gifts",
+    "stat.3.label": "receiving daily support",
 
     "card.food.title": "Food Distribution",
     "card.food.desc": "Weekly meals distributed to soldiers at junctions.",
