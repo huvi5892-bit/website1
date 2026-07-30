@@ -248,13 +248,13 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
       padding-inline: 24px;
     }
 
-    /* first clip lines up with the page content on the right; the slider
-       bleeds off the left (inline-end) edge so the last clip runs off-screen */
+    /* full-bleed to both screen edges; first clip still aligns to the content
+       on the right (inline-start), the rest bleed off the left */
     .projects__row {
-      margin-inline-start: 0;
-      margin-inline-end: -24px;
-      padding-inline: 0;
-      scroll-padding-inline-start: 0;
+      margin-inline: -24px;
+      padding-inline-start: 24px;
+      padding-inline-end: 0;
+      scroll-padding-inline-start: 24px;
     }
 
     /* ~2¼ clips visible; the rest bleed off the left edge */
@@ -460,5 +460,13 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
         if (!p.classList.contains("is-active")) open(p);
       });
     });
+
+    // On mobile, start the slider at the first clip (inline-start).
+    // In modern browsers scrollLeft 0 is the inline-start for both directions.
+    const startSlider = () => {
+      if (isMobile()) row.scrollLeft = 0;
+    };
+    startSlider();
+    window.addEventListener("load", startSlider);
   }
 </script>
