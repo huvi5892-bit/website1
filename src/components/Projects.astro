@@ -250,11 +250,13 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
       padding-inline: 24px;
     }
 
-    /* full-bleed: the slider runs off both screen edges (peek affordance) */
+    /* first clip lines up with the page content on the right; the slider
+       bleeds off the left (inline-end) edge so the last clip runs off-screen */
     .projects__row {
-      margin-inline: -24px;
-      padding-inline: 24px;
-      scroll-padding-inline: 24px;
+      margin-inline-start: 0;
+      margin-inline-end: -24px;
+      padding-inline: 0;
+      scroll-padding-inline-start: 0;
     }
 
     .project {
