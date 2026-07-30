@@ -227,17 +227,21 @@ const stats = [
   const stats = document.querySelectorAll<HTMLElement>(".stat");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  const frames = new WeakMap<HTMLElement, number>();
+
   const animateNumber = (el: HTMLElement, target: number) => {
+    const prev = frames.get(el);
+    if (prev) cancelAnimationFrame(prev); // stop any running count-up first
     const duration = 1500;
     const start = performance.now();
     const step = (now: number) => {
       const p = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
       el.textContent = String(Math.round(eased * target));
-      if (p < 1) requestAnimationFrame(step);
+      if (p < 1) frames.set(el, requestAnimationFrame(step));
       else el.textContent = String(target);
     };
-    requestAnimationFrame(step);
+    frames.set(el, requestAnimationFrame(step));
   };
 
   // seed the display at 0 so the count-up starts from zero
@@ -249,13 +253,19 @@ const stats = [
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
         const stat = entry.target as HTMLElement;
-        io.unobserve(stat);
-        stat.classList.add("is-visible");
         const num = stat.querySelector<HTMLElement>(".stat__number");
         const target = Number(num?.dataset.count ?? 0);
-        if (num && !reduce) animateNumber(num, target);
+
+        if (entry.isIntersecting) {
+          // re-run the count-up every time the row scrolls back into view
+          stat.classList.add("is-visible");
+          if (num && !reduce) animateNumber(num, target);
+        } else {
+          // reset so the next entry animates from zero again
+          stat.classList.remove("is-visible");
+          if (num && !reduce) num.textContent = "0";
+        }
       });
     },
     { threshold: 0.6 }

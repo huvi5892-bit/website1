@@ -45,6 +45,9 @@ const messages = {
         <div class="field">
           <input type="tel" name="phone" required placeholder={t("contact.phone")} aria-label={t("contact.phone")} />
         </div>
+        <div class="field">
+          <input type="email" name="email" placeholder={t("contact.email")} aria-label={t("contact.email")} />
+        </div>
       </div>
 
       <div class="field field--message">
@@ -138,19 +141,24 @@ const messages = {
   }
 
   .contact__fields {
+    width: 100%;
     display: flex;
-    gap: var(--space-6);
+    gap: var(--space-5);
     flex-wrap: wrap;
     justify-content: flex-start;
   }
 
+  /* name / phone / email share the row equally and line up with the
+     full-width message box below */
   .field {
-    width: 230px;
+    flex: 1 1 160px;
+    min-width: 0;
     border-bottom: 1px solid var(--color-border-brand);
   }
 
   /* message box spans the full form width */
   .field--message {
+    flex-basis: 100%;
     width: 100%;
   }
 
