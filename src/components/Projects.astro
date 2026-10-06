@@ -162,7 +162,15 @@ const columns = Array.from({ length: 7 }, (_, i) => ({
     height: 30px;
   }
 
-  .project__play:hover {
+  /* the whole column is clickable, so hovering anywhere on it lifts the button */
+  @media (hover: hover) {
+    .project:not(.is-active):hover .project__play {
+      transform: scale(1.06);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .project__play:focus-visible {
     transform: scale(1.06);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   }

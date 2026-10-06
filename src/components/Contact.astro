@@ -5,9 +5,14 @@ import { useTranslations } from "../i18n/ui";
 
 const t = useTranslations(Astro.currentLocale);
 
-// Web3Forms — public access key (safe to expose); recipient is set in the
-// Web3Forms dashboard, so it can be changed without touching the code.
-const ACCESS_KEY = "bad57d12-fd1f-4b4f-af1b-6b07672658d2";
+// Web3Forms — public access keys (safe to expose). The free plan allows one
+// recipient per form, so each recipient has their own form/key and every
+// submission is sent to all of them. Recipients are set in the Web3Forms
+// dashboard, per form.
+const ACCESS_KEYS = [
+  "bad57d12-fd1f-4b4f-af1b-6b07672658d2", // "Lanetzach Achim Form" → the client
+  "f00eb418-2f2a-4b30-9e0f-a70cab9f04d2", // copy form → Huvi5892@gmail.com
+];
 
 const messages = {
   sending: t("contact.sending"),
@@ -26,7 +31,8 @@ const messages = {
     >
       <SectionHeading title={t("contact.heading")} />
 
-      <input type="hidden" name="access_key" value={ACCESS_KEY} />
+      {/* no-JS fallback posts to the first form only; the script sends to all */}
+      <input type="hidden" name="access_key" value={ACCESS_KEYS[0]} />
       <input type="hidden" name="subject" value="פנייה חדשה מאתר לנצח אחים" />
       <input type="hidden" name="from_name" value="אתר לנצח אחים" />
       {/* honeypot spam trap — real users never fill this */}
@@ -69,7 +75,7 @@ const messages = {
   </div>
 </section>
 
-<script define:vars={{ messages }}>
+<script define:vars={{ messages, accessKeys: ACCESS_KEYS }}>
   const form = document.getElementById("contact-form");
   const statusEl = document.getElementById("contact-status");
   const label = form?.querySelector(".btn__label");
@@ -80,13 +86,18 @@ const messages = {
     statusEl.hidden = true;
     if (label) label.textContent = messages.sending;
 
-    try {
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: new FormData(form),
-      });
+    // one request per recipient form; the visitor sees success if any arrived
+    const send = async (key) => {
+      const body = new FormData(form);
+      body.set("access_key", key);
+      const res = await fetch("https://api.web3forms.com/submit", { method: "POST", body });
       const data = await res.json();
-      if (data.success) {
+      if (!data.success) throw new Error(data.message);
+    };
+
+    try {
+      const results = await Promise.allSettled(accessKeys.map(send));
+      if (results.some((r) => r.status === "fulfilled")) {
         statusEl.textContent = messages.success;
         statusEl.className = "contact__status is-success";
         form.reset();

@@ -56,7 +56,8 @@ export const ui = {
     "cta.title": "בואו להיות חלק",
     "cta.subtitle1": "בכל תרומה שלך,",
     "cta.subtitle2": "אתה מדליק אור בלב של אחר.",
-    "cta.button": "הצטרפו אלינו",
+    "cta.monthly.button": "תרומה בהוראת קבע",
+    "cta.once.button": "תרומה חד-פעמית",
 
     "contact.heading": "דברו אתנו",
     "contact.name": "שם:",
@@ -116,7 +117,8 @@ export const ui = {
     "cta.title": "Be Part of It",
     "cta.subtitle1": "With every donation,",
     "cta.subtitle2": "you light up a light in someone's heart.",
-    "cta.button": "Join Us",
+    "cta.monthly.button": "Monthly Giving",
+    "cta.once.button": "One-Time Gift",
 
     "contact.heading": "Contact Us",
     "contact.name": "Name:",
